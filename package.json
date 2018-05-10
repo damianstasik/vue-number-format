@@ -1,0 +1,22 @@
+{
+  "name": "vue-number-format",
+  "version": "0.1.0",
+  "keywords": [
+    "vue-number-format",
+    "number",
+    "format",
+    "vue"
+  ],
+  "bugs": "https://github.com/visualfanatic/vue-number-format/issues",
+  "repository": "visualfanatic/vue-number-format",
+  "license": "MIT",
+  "contributors": [
+    {
+      "name": "Sudhanshu Yadav",
+      "email": "sudhanshuyadav2@gmail.com",
+      "url": "https://github.com/s-yadav/react-number-format"
+    }
+  ],
+  "author": "Damian Stasik <npm@coded.pl>",
+  "main": "src/index.js"
+}
