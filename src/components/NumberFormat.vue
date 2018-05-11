@@ -101,7 +101,7 @@ export default {
       this.formattedValue = formattedValue;
       this.rawValue = rawValue || this.removeFormatting(formattedValue);
 
-      this.$emit('input', this.rawValue);
+      this.$emit('input', { formattedValue, rawValue: this.rawValue });
     },
     getFloatString(num = '') {
       const { decimalSeparator, decimalScale } = this;
@@ -210,7 +210,7 @@ export default {
     },
     getCaretPosition(inputValue, formattedValue, caretPos) {
       const { format } = this;
-      const stateValue = this.value;
+      const stateValue = this.formattedValue;
       const numRegex = this.getNumberRegex(true);
       const inputNumber = (inputValue.match(numRegex) || []).join('');
       const formattedNumber = (formattedValue.match(numRegex) || []).join('');
@@ -510,7 +510,7 @@ export default {
       const el = e.target;
       let inputValue = el.value;
       const { isAllowed } = this;
-      const lastValue = this.value || '';
+      const lastValue = this.formattedValue || '';
 
       /* Max of selectionStart and selectionEnd is taken for the patch of pixel and other mobile device caret bug */
       const currentCaretPosition = Math.max(el.selectionStart, el.selectionEnd);
@@ -518,12 +518,10 @@ export default {
       inputValue = this.correctInputValue(currentCaretPosition, lastValue, inputValue);
 
       let formattedValue = this.formatInput(inputValue) || '';
-      const rawValue = this.removeFormatting(formattedValue);
 
       const valueObj = {
         formattedValue,
-        rawValue,
-        floatValue: parseFloat(rawValue),
+        rawValue: this.removeFormatting(formattedValue),
       };
 
       if (!isAllowed(valueObj)) {
@@ -531,7 +529,7 @@ export default {
       }
 
       // set the value imperatively, this is required for IE fix
-      el.value = formattedValue;
+      // el.value = formattedValue;
 
       // get the caret position
       const caretPos = this.getCaretPosition(inputValue, formattedValue, currentCaretPosition);
@@ -540,12 +538,14 @@ export default {
       this.setPatchedCaretPosition(el, caretPos, formattedValue);
 
       // change the state
-      this.setValues(formattedValue, rawValue);
+      this.setValues(formattedValue);
+
+      this.$forceUpdate();
     },
     onBlur(e) {
       const { format } = this;
       let { rawValue } = this;
-      const lastValue = this.value;
+      const lastValue = this.formattedValue;
       if (!format) {
         rawValue = fixLeadingZero(rawValue);
         const formattedValue = this.formatNumString(rawValue);
@@ -561,6 +561,7 @@ export default {
     onKeyDown(e) {
       const el = e.target;
       const { key } = e;
+
       const { selectionStart, selectionEnd, value = '' } = el;
       let expectedCaretPosition;
       const {
