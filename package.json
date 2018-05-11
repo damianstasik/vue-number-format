@@ -18,5 +18,16 @@
     }
   ],
   "author": "Damian Stasik <npm@coded.pl>",
-  "main": "src/index.js"
+  "main": "dist/vue-number-format.js",
+  "devDependencies": {
+    "cross-env": "^5.1.5",
+    "rollup": "^0.58.2",
+    "rollup-plugin-buble": "^0.19.2",
+    "rollup-plugin-uglify": "^3.0.0",
+    "rollup-plugin-vue": "^4.1.0",
+    "vue-template-compiler": "^2.5.16"
+  },
+  "scripts": {
+    "build": "cross-env NODE_ENV=production rollup -c"
+  }
 }
