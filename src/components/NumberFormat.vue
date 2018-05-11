@@ -522,7 +522,7 @@ export default {
 
       const valueObj = {
         formattedValue,
-        value: rawValue,
+        rawValue,
         floatValue: parseFloat(rawValue),
       };
 
@@ -542,7 +542,7 @@ export default {
       // change the state
       this.setValues(formattedValue, rawValue);
     },
-    onBlur() {
+    onBlur(e) {
       const { format } = this;
       let { rawValue } = this;
       const lastValue = this.value;
@@ -555,6 +555,8 @@ export default {
           this.setValues(formattedValue, rawValue);
         }
       }
+
+      this.onEvent('blur', e);
     },
     onKeyDown(e) {
       const el = e.target;
@@ -586,6 +588,7 @@ export default {
       // if expectedCaretPosition is not set it means we don't want to Handle keyDown
       // also if multiple characters are selected don't handle
       if (expectedCaretPosition === undefined || selectionStart !== selectionEnd) {
+        this.onEvent('keydown', e);
         return;
       }
 
@@ -603,11 +606,12 @@ export default {
         newCaretPosition = this.correctCaretPosition(value, newCaretPosition, 'left');
       }
 
-
       if (newCaretPosition !== expectedCaretPosition || expectedCaretPosition < leftBound || expectedCaretPosition > rightBound) {
         e.preventDefault();
         this.setPatchedCaretPosition(el, newCaretPosition, value);
       }
+
+      this.onEvent('keydown', e);
     },
     /** required to handle the caret position when click anywhere within the input * */
     onMouseUp(e) {
@@ -625,6 +629,8 @@ export default {
           this.setPatchedCaretPosition(el, caretPosition, value);
         }
       }
+
+      this.onEvent('mouseup', e);
     },
     onFocus(e) {
     // Workaround Chrome and Safari bug https://bugs.chromium.org/p/chromium/issues/detail?id=779328
@@ -637,8 +643,15 @@ export default {
         if (caretPosition !== selectionStart) {
           this.setPatchedCaretPosition(el, caretPosition, value);
         }
+
+        this.onEvent('focus', e);
       }, 0);
     },
+    onEvent(name, value) {
+      if (this.$listeners[name]) {
+        this.$listeners[name](value);
+      }
+    }
   },
   render() {
     return this.$scopedSlots.default({
