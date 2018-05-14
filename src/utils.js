@@ -3,12 +3,13 @@ export function charIsNumber(char) {
 }
 
 export function escapeRegExp(str) {
-  return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
+  return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 }
 
-// spilt a float number into different parts beforeDecimal, afterDecimal, and negation
-export function splitDecimal(numStr) {
+//spilt a float number into different parts beforeDecimal, afterDecimal, and negation
+export function splitDecimal(numStr, allowNegative = true) {
   const hasNagation = numStr[0] === '-';
+  const addNegation = hasNagation && allowNegative;
   numStr = numStr.replace('-', '');
 
   const parts = numStr.split('.');
@@ -19,7 +20,8 @@ export function splitDecimal(numStr) {
     beforeDecimal,
     afterDecimal,
     hasNagation,
-  };
+    addNegation
+  }
 }
 
 export function fixLeadingZero(numStr) {
@@ -27,10 +29,10 @@ export function fixLeadingZero(numStr) {
   const isNegative = numStr[0] === '-';
   if (isNegative) numStr = numStr.substring(1, numStr.length);
   const parts = numStr.split('.');
-  const beforeDecimal = parts[0].replace(/^0+/, '') || '0';
+  const beforeDecimal = parts[0].replace(/^0+/,'') || '0';
   const afterDecimal = parts[1] || '';
 
-  return `${isNegative ? '-' : ''}${beforeDecimal}${afterDecimal ? `.${afterDecimal}` : ''}`;
+  return `${isNegative ? '-': ''}${beforeDecimal}${afterDecimal ? `.${afterDecimal}` : ''}`;
 }
 
 /**
@@ -38,9 +40,9 @@ export function fixLeadingZero(numStr) {
  * Not used .fixedTo because that will break with big numbers
  */
 export function limitToScale(numStr, scale, fixedDecimalScale) {
-  let str = '';
+  let str = ''
   const filler = fixedDecimalScale ? '0' : '';
-  for (let i = 0; i <= scale - 1; i++) {
+  for (let i=0; i<=scale - 1; i++) {
     str += numStr[i] || filler;
   }
   return str;
@@ -51,11 +53,11 @@ export function limitToScale(numStr, scale, fixedDecimalScale) {
  * Not used .round or .fixedTo because that will break with big numbers
  */
 export function roundToPrecision(numStr, scale, fixedDecimalScale) {
-  // if number is empty don't do anything return empty string
+  //if number is empty don't do anything return empty string
   if (numStr === '') return '';
 
   const shoudHaveDecimalSeparator = numStr.indexOf('.') !== -1 && scale;
-  const { beforeDecimal, afterDecimal, hasNagation } = splitDecimal(numStr);
+  const {beforeDecimal, afterDecimal, hasNagation} = splitDecimal(numStr);
   const roundedDecimalParts = parseFloat(`0.${afterDecimal || '0'}`).toFixed(scale).split('.');
   const intPart = beforeDecimal.split('').reverse().reduce((roundedStr, current, idx) => {
     if (roundedStr.length > idx) {
@@ -74,12 +76,12 @@ export function roundToPrecision(numStr, scale, fixedDecimalScale) {
 export function omit(obj, keyMaps) {
   const filteredObj = {};
   Object.keys(obj).forEach((key) => {
-    if (!keyMaps[key]) filteredObj[key] = obj[key];
+    if (!keyMaps[key]) filteredObj[key] = obj[key]
   });
   return filteredObj;
 }
 
-/** set the caret positon in an input field * */
+/** set the caret positon in an input field **/
 export function setCaretPosition(el, caretPos) {
   el.value = el.value;
   // ^ this is used to not only get "focus", but
@@ -112,22 +114,21 @@ export function setCaretPosition(el, caretPos) {
   characters are changed which is correct assumption for caret input.
 */
 export function findChangedIndex(prevValue, newValue) {
-  let i = 0;
-  let j = 0;
+  let i = 0, j = 0;
   const prevLength = prevValue.length;
   const newLength = newValue.length;
   while (prevValue[i] === newValue[i] && i < prevLength) i++;
 
-  // check what has been changed from last
+  //check what has been changed from last
   while (
     prevValue[prevLength - 1 - j] === newValue[newLength - 1 - j]
     && newLength - j > i
     && prevLength - j > i
   ) {
-    j++;
-  }
+       j++;
+    }
 
-  return { start: i, end: prevLength - j };
+  return {start: i, end: prevLength - j};
 }
 
 /*
