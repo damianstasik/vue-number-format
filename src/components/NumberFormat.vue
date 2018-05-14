@@ -39,7 +39,7 @@ export default {
       default: '',
     },
     format: {
-      type: [Function, String],
+      type: [String, Function],
       default: null,
     },
     mask: {
@@ -56,7 +56,7 @@ export default {
       },
     },
     value: {
-      type: String,
+      type: [String, Number],
       default: '',
     },
     isNumericString: {
