@@ -78,22 +78,13 @@ export default {
   },
   data() {
     return {
-      rawValue: '',
+      init: false,
       formattedValue: '',
+      rawValue: '',
       selectionBeforeInput: {
         selectionStart: 0,
         selectionEnd: 0,
       },
-    };
-  },
-  created() {
-    const formattedValue = this.formatValueProp();
-
-    this.setValues(formattedValue);
-
-    this.selectionBeforeInput = {
-      selectionStart: 0,
-      selectionEnd: 0,
     };
   },
   methods: {
@@ -651,13 +642,23 @@ export default {
     onEvent(name, value) {
       if (this.$listeners[name]) {
         this.$listeners[name](value);
+
+        this.init = true;
       }
     }
   },
   render() {
+    let formattedValue = this.formattedValue;
+    let rawValue = this.rawValue;
+
+    if (!this.init) {
+      formattedValue = this.formatValueProp();
+      rawValue = this.removeFormatting(formattedValue);
+    }
+
     return this.$scopedSlots.default({
-      formattedValue: this.formattedValue,
-      rawValue: this.rawValue,
+      formattedValue,
+      rawValue,
       inputEvents: {
         input: this.onChange,
         keydown: this.onKeyDown,
