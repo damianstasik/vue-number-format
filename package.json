@@ -22,7 +22,7 @@
   "devDependencies": {
     "cross-env": "^5.1.5",
     "rollup": "^0.58.2",
-    "rollup-plugin-buble": "^0.19.2",
+    "rollup-plugin-buble": "^0.19.8",
     "rollup-plugin-uglify": "^3.0.0",
     "rollup-plugin-vue": "^4.1.0",
     "vue-template-compiler": "^2.5.16"
