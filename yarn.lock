@@ -12,14 +12,6 @@
   dependencies:
     "@types/babel-types" "*"
 
-"@types/estree@0.0.38":
-  version "0.0.38"
-  resolved "https://registry.yarnpkg.com/@types/estree/-/estree-0.0.38.tgz#c1be40aa933723c608820a99a373a16d215a1ca2"
-
-"@types/node@*":
-  version "10.0.8"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.0.8.tgz#37b4d91d4e958e4c2ba0be2b86e7ed4ff19b0858"
-
 "@vue/component-compiler-utils@^3.0.0":
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/@vue/component-compiler-utils/-/component-compiler-utils-3.1.2.tgz#8213a5ff3202f9f2137fe55370f9e8b9656081c3"
@@ -1180,12 +1172,11 @@ rollup-pluginutils@^2.3.3, rollup-pluginutils@^2.4.1:
   dependencies:
     estree-walker "^0.6.1"
 
-rollup@^0.58.2:
-  version "0.58.2"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-0.58.2.tgz#2feddea8c0c022f3e74b35c48e3c21b3433803ce"
-  dependencies:
-    "@types/estree" "0.0.38"
-    "@types/node" "*"
+rollup@^2.8.2:
+  version "2.8.2"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.8.2.tgz#08427a8eb118e6e4ac8d80eba22774bc1d059c81"
+  optionalDependencies:
+    fsevents "~2.1.2"
 
 safe-buffer@^5.0.1, safe-buffer@^5.1.2:
   version "5.2.0"
