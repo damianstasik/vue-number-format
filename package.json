@@ -25,7 +25,7 @@
     "rollup-plugin-buble": "^0.19.8",
     "rollup-plugin-uglify": "^4.0.0",
     "rollup-plugin-vue": "^5.1.9",
-    "vue-template-compiler": "^2.6.11"
+    "vue-template-compiler": "^2.6.12"
   },
   "scripts": {
     "build": "cross-env NODE_ENV=production rollup -c"
